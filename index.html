@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptean CurrencyAI - Invoice Currency Standardization Bot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1 data-i18n="title_app">Aptean CurrencyAI</h1>
+                    <span class="subtitle" data-i18n="subtitle_app">Currency Standardization Specialist</span>
+                </div>
+                <div class="lang-select" style="display:flex;align-items:center;gap:0.6rem;">
+                    <label for="langSelect" class="lang-label" data-i18n="label_language">Language:</label>
+                    <select id="langSelect" aria-label="Choose language">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="es">Español</option>
+                    </select>
+                </div>
+
+                <div class="system-status">
+                    <div class="status-item">
+                        <span class="status-indicator active"></span>
+                        <span>Bot Online</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-indicator active"></span>
+                        <span>Live Exchange Rates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Interface -->
+    <main class="main-content">
+        <div class="container">
+            <div class="chat-layout">
+                <!-- Chat Messages Area -->
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Welcome message will be inserted here -->
+                    </div>
+                    
+                    <!-- Typing indicator -->
+                    <div class="typing-indicator hidden" id="typingIndicator">
+                        <div class="bot-avatar">
+                            <div class="avatar-icon">💱</div>
+                        </div>
+                        <div class="typing-bubble">
+                            <span class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="chat-input-container">
+                    <div class="quick-actions" id="quickActions">
+                        <button class="quick-action-btn" data-action="paste-invoice">
+                            📄 Paste Invoice Here
+                        </button>
+                        <button class="quick-action-btn" data-action="exchange-rates">
+                            📊 Current Exchange Rates
+                        </button>
+                        <button class="quick-action-btn" data-action="conversion-history">
+                            📈 Conversion History
+                        </button>
+                        <button class="quick-action-btn" data-action="business-benefits">
+                            💡 Business Benefits
+                        </button>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <textarea 
+                            id="chatInput" 
+                            placeholder="Type your message, paste invoice text, or ask about currency conversion..." 
+                            rows="2"
+                         data-i18n-placeholder="placeholder_chat" ></textarea>
+                        <button id="sendButton" class="send-btn">
+                            <span class="send-icon">➤</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Sample currency buttons -->
+                    <div class="currency-samples">
+                        <span class="samples-label" data-i18n="label_samples">Try these samples:</span>
+                        <button class="currency-sample-btn" data-sample="german_eur">€3,381 German</button>
+                        <button class="currency-sample-btn" data-sample="indian_inr">₹2,95,000 Indian</button>
+                        <button class="currency-sample-btn" data-sample="uk_gbp">£10,200 UK</button>
+                        <button class="currency-sample-btn" data-sample="canadian_cad">C$16,950 Canadian</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Sidebar -->
+            <div class="stats-sidebar">
+                <div class="card stats-card">
+                    <div class="card__header">
+                        <h3 data-i18n="stats_processing">Processing Stats</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalConversions">3,247</div>
+                            <div class="stat-label">Total Conversions</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="currenciesProcessed">12</div>
+                            <div class="stat-label">Currencies Processed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalValue">$84.7M</div>
+                            <div class="stat-label">Total Value Converted</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="accuracyRate">99.5%</div>
+                            <div class="stat-label">Accuracy Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="avgProcessingTime">2.3s</div>
+                            <div class="stat-label">Avg Processing Time</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="timeSaved">8,642h</div>
+                            <div class="stat-label">Time Saved</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card exchange-rates-card">
+                    <div class="card__header">
+                        <h3>Live Exchange Rates</h3>
+                        <span class="rates-updated">Updated now</span>
+                    </div>
+                    <div class="card__body">
+                        <div class="exchange-rate-item">
+                            <span class="currency-code">EUR</span>
+                            <span class="rate-value">$1.18</span>
+                        </div>
+                        <div class="exchange-rate-item">
+                            <span class="currency-code">GBP</span>
+                            <span class="rate-value">$1.28</span>
+                        </div>
+                        <div class="exchange-rate-item">
+                            <span class="currency-code">INR</span>
+                            <span class="rate-value">$0.012</span>
+                        </div>
+                        <div class="exchange-rate-item">
+                            <span class="currency-code">CAD</span>
+                            <span class="rate-value">$0.74</span>
+                        </div>
+                        <div class="exchange-rate-item">
+                            <span class="currency-code">JPY</span>
+                            <span class="rate-value">$0.0067</span>
+                        </div>
+                        <div class="exchange-rate-item">
+                            <span class="currency-code">AUD</span>
+                            <span class="rate-value">$0.67</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card confidence-card">
+                    <div class="card__header">
+                        <h3 data-i18n="confidence_scoring">Confidence Scoring</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="confidence-meter">
+                            <div class="confidence-label">Detection Accuracy</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 99%"></div>
+                                <span class="confidence-percentage">99%</span>
+                            </div>
+                        </div>
+                        <div class="confidence-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Currency Recognition</span>
+                                <span class="detail-value">99.8%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Amount Extraction</span>
+                                <span class="detail-value">99.2%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Format Parsing</span>
+                                <span class="detail-value">98.9%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+<script>
+// Minimal inline translations (safe, no external deps)
+const TRANSLATIONS = {
+  en: {
+    title_app: "Aptean CurrencyAI",
+    subtitle_app: "Currency Standardization Specialist",
+    label_language: "Language:",
+    placeholder_chat: "Type your message, paste invoice text, or ask about currency conversion...",
+    label_samples: "Try these samples:",
+    stats_processing: "Processing Stats",
+    confidence_scoring: "Confidence Scoring",
+    exchange_rates: "Exchange Rates"
+  },
+  hi: {
+    title_app: "Aptean करेंसीएआई",
+    subtitle_app: "मुद्रा मानकीकरण विशेषज्ञ",
+    label_language: "भाषा:",
+    placeholder_chat: "अपना संदेश लिखें, चालान पेस्ट करें, या मुद्रा रूपांतरण के बारे में पूछें...",
+    label_samples: "इन नमूनों को आज़माएँ:",
+    stats_processing: "प्रोसेसिंग आँकड़े",
+    confidence_scoring: "कन्फिडेंस स्कोरिंग",
+    exchange_rates: "एक्सचेंज रेट्स"
+  },
+  es: {
+    title_app: "Aptean CurrencyAI",
+    subtitle_app: "Especialista en Estandarización de Moneda",
+    label_language: "Idioma:",
+    placeholder_chat: "Escribe tu mensaje, pega el texto de la factura o pregunta sobre conversión de divisas...",
+    label_samples: "Prueba estos ejemplos:",
+    stats_processing: "Estadísticas de Procesamiento",
+    confidence_scoring: "Puntuación de Confianza",
+    exchange_rates: "Tipos de Cambio"
+  }
+};
+
+function applyTranslations(lang='en') {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+      el.textContent = TRANSLATIONS[lang][key];
+    }
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+      el.setAttribute('placeholder', TRANSLATIONS[lang][key]);
+    }
+  });
+}
+
+// apply on DOM load and on language change
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.getElementById('langSelect');
+  if (sel) {
+    applyTranslations(sel.value || 'en');
+    sel.addEventListener('change', () => applyTranslations(sel.value));
+  } else {
+    applyTranslations('en');
+  }
+});
+</script>
+
+<script src="app.js"></script>
+</body>
+</html>
